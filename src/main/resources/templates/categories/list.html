@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Danh sách loại khóa học</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; }
+        .container { padding: 0 20px 40px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f4f4f4; }
+        a.btn, button.btn { display:inline-block; padding:6px 12px; background:#2c3e50; color:#fff; text-decoration:none; border:none; cursor:pointer; border-radius:4px; }
+        .msg-success { color:green; }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<div class="container">
+    <h2>Danh sách loại khóa học</h2>
+    <p class="msg-success" th:if="${successMessage}" th:text="${successMessage}"></p>
+
+    <a class="btn" href="/categories/new">+ Thêm loại khóa học</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Tên</th>
+            <th>Mô tả</th>
+            <th>Số khóa học</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cat : ${categories}">
+            <td th:text="${cat.name}"></td>
+            <td th:text="${cat.description}"></td>
+            <td th:text="${courseCounts.get(cat.id)}"></td>
+            <td>
+                <a th:href="@{/categories/{id}/edit(id=${cat.id})}">Sửa</a> |
+                <form method="post" th:action="@{/categories/{id}/delete(id=${cat.id})}" style="display:inline;"
+                      onsubmit="return confirm('Bạn có chắc muốn xóa loại khóa học này?');">
+                    <button type="submit" style="background:none;border:none;color:#c0392b;cursor:pointer;padding:0;">Xóa</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

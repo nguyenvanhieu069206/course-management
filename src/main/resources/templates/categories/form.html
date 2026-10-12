@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${isEdit} ? 'Sửa loại khóa học' : 'Thêm loại khóa học'"></title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; }
+        .container { padding: 0 20px 40px; max-width: 600px; }
+        .field { margin-bottom: 14px; }
+        label { display:block; margin-bottom:4px; font-weight:bold; }
+        input, textarea { width:100%; padding:6px; box-sizing:border-box; }
+        .error { color:red; font-size: 0.9em; }
+        button { padding:8px 16px; background:#2c3e50; color:#fff; border:none; cursor:pointer; border-radius:4px; }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<div class="container">
+    <h2 th:text="${isEdit} ? 'Sửa loại khóa học' : 'Thêm loại khóa học'"></h2>
+
+    <form method="post" th:action="${isEdit} ? @{/categories/{id}(id=${category.id})} : @{/categories}"
+          th:object="${category}">
+
+        <div class="field">
+            <label>Tên loại khóa học</label>
+            <input type="text" th:field="*{name}"/>
+            <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+
+        <div class="field">
+            <label>Mô tả</label>
+            <textarea th:field="*{description}" rows="4"></textarea>
+        </div>
+
+        <button type="submit" th:text="${isEdit} ? 'Lưu thay đổi' : 'Tạo loại khóa học'"></button>
+        <a th:href="@{/categories}" style="margin-left:10px;">Hủy</a>
+    </form>
+</div>
+</body>
+</html>
